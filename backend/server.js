@@ -10,6 +10,10 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
+const todoRouter = require('./routes/todo');
+
+app.use('/api', todoRouter);
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
