@@ -50,7 +50,20 @@ function updateSection(req, res) {
   );
 }
 
+function deleteSection(req, res) {
+  const { id } = req.params;
+
+  db.execute('DELETE FROM section WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed deleting section' });
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Failed deleting section. Id not found' });
+    }
+    return res.status(200).json({ message: 'Section successfully deleted' });
+  });
+}
+
 module.exports = {
   createSection,
   updateSection,
+  deleteSection,
 };
