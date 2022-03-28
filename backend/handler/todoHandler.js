@@ -69,8 +69,21 @@ function updateTodo(req, res) {
   );
 }
 
+function deleteTodo(req, res) {
+  const { id } = req.params;
+
+  db.execute('DELETE FROM todo WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed deleting todo' });
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Failed deleting todo. Id not found' });
+    }
+    return res.status(200).json({ message: 'Todo successfully deleted' });
+  });
+}
+
 module.exports = {
   createTodo,
   getTodo,
   updateTodo,
+  deleteTodo,
 };
