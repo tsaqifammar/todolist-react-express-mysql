@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable consistent-return */
 const { nanoid } = require('nanoid');
 
@@ -11,7 +12,7 @@ function createTodo(req, res) {
 
   if (name === undefined || description === undefined) {
     return res.status(400).json({
-      message: 'Failed creating a new todo. Please provide a complete info',
+      message: 'Failed creating a new todo. Please provide name and description',
     });
   }
 
@@ -41,7 +42,35 @@ function getTodo(req, res) {
   });
 }
 
+function updateTodo(req, res) {
+  const { id } = req.params;
+  const { name, description, is_done } = req.body;
+
+  if (name === undefined || description === undefined || is_done === undefined) {
+    return res.status(400).json({
+      message: 'Failed updating todo. Please provide name, description, and is_done',
+    });
+  }
+
+  db.execute(
+    `
+    UPDATE todo
+    SET name = ?, description = ?, is_done = ?
+    WHERE id = ?
+    `,
+    [name, description, is_done, id],
+    (err, results) => {
+      if (err) return res.status(400).json({ message: 'Failed updating todo' });
+      if (results.affectedRows === 0) {
+        return res.status(404).json({ message: 'Failed updating todo. Id not found' });
+      }
+      return res.status(200).json({ message: 'Todo successfully updated' });
+    },
+  );
+}
+
 module.exports = {
   createTodo,
   getTodo,
+  updateTodo,
 };
