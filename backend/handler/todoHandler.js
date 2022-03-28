@@ -27,6 +27,16 @@ function createSection(req, res) {
   );
 }
 
+function getAllSections(req, res) {
+  db.execute('SELECT * FROM section', (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed getting all sections ' });
+    res.json({
+      message: 'Success',
+      data: results,
+    });
+  });
+}
+
 function getSection(req, res) {
   const { id } = req.params;
   db.execute('SELECT * FROM section WHERE id = ?', [id], (err, results) => {
@@ -76,6 +86,7 @@ function deleteSection(req, res) {
 
 module.exports = {
   createSection,
+  getAllSections,
   getSection,
   updateSection,
   deleteSection,
