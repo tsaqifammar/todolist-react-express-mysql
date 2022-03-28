@@ -29,6 +29,19 @@ function createTodo(req, res) {
   );
 }
 
+function getTodo(req, res) {
+  const { id } = req.params;
+  db.execute('SELECT * FROM todo WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed getting todo' });
+    if (results.length === 0) return res.status(404).json({ message: 'Todo not found' });
+    res.status(200).json({
+      message: 'Success',
+      data: results[0],
+    });
+  });
+}
+
 module.exports = {
   createTodo,
+  getTodo,
 };
