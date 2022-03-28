@@ -11,8 +11,9 @@ app.use(cors());
 app.use(logger);
 
 const sectionRouter = require('./routes/section');
+const todoRouter = require('./routes/todo');
 
-app.use('/api', sectionRouter);
+app.use('/api', [sectionRouter, todoRouter]);
 
 const PORT = process.env.PORT || 4000;
 
