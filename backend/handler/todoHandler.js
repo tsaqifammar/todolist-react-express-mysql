@@ -27,6 +27,18 @@ function createSection(req, res) {
   );
 }
 
+function getSection(req, res) {
+  const { id } = req.params;
+  db.execute('SELECT * FROM section WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed getting section' });
+    if (results.length === 0) return res.status(404).json({ message: 'Section not found' });
+    res.status(200).json({
+      message: 'Success',
+      data: results[0],
+    });
+  });
+}
+
 function updateSection(req, res) {
   const { id } = req.params;
   const { name } = req.body;
@@ -64,6 +76,7 @@ function deleteSection(req, res) {
 
 module.exports = {
   createSection,
+  getSection,
   updateSection,
   deleteSection,
 };
