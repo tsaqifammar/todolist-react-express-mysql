@@ -10,9 +10,9 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
-const todoRouter = require('./routes/todo');
+const sectionRouter = require('./routes/section');
 
-app.use('/api', todoRouter);
+app.use('/api', sectionRouter);
 
 const PORT = process.env.PORT || 4000;
 
