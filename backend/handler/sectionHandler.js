@@ -84,10 +84,91 @@ function deleteSection(req, res) {
   });
 }
 
+function getSectionsWithTodos(req, res) {
+  const { limit = 3, offset = 0, searchInput } = req.query;
+
+  const limitSQLParam = Math.min(parseInt(limit, 10), 20);
+  const offsetSQLParam = parseInt(offset, 10);
+  const searchSQLParam = (searchInput ? `%${searchInput}%` : '%').toLowerCase();
+
+  const options = {
+    sql: `
+    SELECT *
+    FROM todo
+    INNER JOIN (
+      SELECT *
+      FROM section s
+      WHERE LOWER(s.name) LIKE ?
+      LIMIT ?
+      OFFSET ?
+    ) AS section
+    ON todo.section_id = section.id
+    ORDER BY section.date_created
+    `,
+    nestTables: true,
+  };
+
+  db.execute(
+    options,
+    [searchSQLParam, limitSQLParam, offsetSQLParam],
+    (err, results) => {
+      if (err) return res.status(400).json({ message: 'Failed getting data' });
+
+      const dataButMap = results.reduce((section, d) => {
+        const sectionId = d.section.id;
+        if (!section.has(sectionId)) {
+          section.set(sectionId, {
+            ...d.section,
+            todos: [d.todo],
+          });
+        } else {
+          section.get(sectionId).todos.push(d.todo);
+        }
+        return section;
+      }, new Map());
+
+      return res.status(200).json({
+        message: 'Success',
+        data: [...dataButMap].map(([, value]) => value),
+      });
+    },
+  );
+}
+
+/*
+  {
+    message: 'Success',
+    data: [
+      {
+        id: 'section_id',
+        name: 'Study',
+        date_created: 'XXX',
+        to_dos: [
+          {
+            id: 'todo_id',
+            name: 'study next js',
+            description: 'desc',
+            is_done: 0,
+            date_created: 'xxx',
+          },
+          {
+            id: 'todo_id',
+            name: 'study next js',
+            description: 'desc',
+            is_done: 0,
+            date_created: 'xxx',
+          }
+        ]
+      }
+    ]
+  }
+*/
+
 module.exports = {
   createSection,
   getAllSections,
   getSection,
   updateSection,
   deleteSection,
+  getSectionsWithTodos,
 };
