@@ -49,6 +49,34 @@ function getSection(req, res) {
   });
 }
 
+function getPageCount(req, res) {
+  const { countPerPage } = req.query;
+
+  if (countPerPage === undefined) {
+    return res.status(400).json({
+      message: 'Failed getting page count. Please provide countPerPage data',
+    });
+  }
+
+  if (countPerPage === '0') {
+    return res.status(400).json({
+      message: 'Failed getting page count. countPerPage cannot be 0',
+    });
+  }
+
+  db.execute('SELECT COUNT(*) AS rowCount FROM section', (err, results) => {
+    if (err) return res.status(400).json({ message: 'Failed getting page count' });
+    const { rowCount } = results[0];
+    console.log(results, results[0], rowCount);
+    res.status(200).json({
+      message: 'Success',
+      data: {
+        pageCount: Math.ceil(rowCount / parseFloat(countPerPage)),
+      },
+    });
+  });
+}
+
 function updateSection(req, res) {
   const { id } = req.params;
   const { name } = req.body;
@@ -142,4 +170,5 @@ module.exports = {
   updateSection,
   deleteSection,
   getSectionsWithTodos,
+  getPageCount,
 };
