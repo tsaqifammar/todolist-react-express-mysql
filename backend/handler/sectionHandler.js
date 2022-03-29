@@ -135,35 +135,6 @@ function getSectionsWithTodos(req, res) {
   );
 }
 
-/*
-  {
-    message: 'Success',
-    data: [
-      {
-        id: 'section_id',
-        name: 'Study',
-        date_created: 'XXX',
-        to_dos: [
-          {
-            id: 'todo_id',
-            name: 'study next js',
-            description: 'desc',
-            is_done: 0,
-            date_created: 'xxx',
-          },
-          {
-            id: 'todo_id',
-            name: 'study next js',
-            description: 'desc',
-            is_done: 0,
-            date_created: 'xxx',
-          }
-        ]
-      }
-    ]
-  }
-*/
-
 module.exports = {
   createSection,
   getAllSections,
