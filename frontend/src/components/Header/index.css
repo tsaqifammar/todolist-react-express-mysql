@@ -1,0 +1,5 @@
+.add-section-btn {
+  @apply bg-gradient-to-tl p-4  text-white flex items-center
+  from-gray-700 to-gray-500 hover:contrast-125
+  rounded-full sm:rounded text-2xl sm:text-sm transition-all;
+}

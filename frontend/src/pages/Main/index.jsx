@@ -1,7 +1,9 @@
+import Header from '../../components/Header';
+
 function Main() {
   return (
-    <div>
-      <h1>I'm main</h1>
+    <div className="mx-auto h-screen w-4/5">
+      <Header />
     </div>
   );
 }
