@@ -14,7 +14,7 @@ function Todo({ data }) {
   return (
     <div className="p-3 border-2 border-gray-300 rounded flex items-center">
       <input type="checkbox" checked={isDone} className="" onChange={handleOnChange} />
-      <Link to={`/edit/${data.id}`} className="ml-4 w-full">
+      <Link to={`/todo/${data.id}/edit`} className="ml-4 w-full">
         <div className={`${isDone ? 'line-through text-gray-700' : ''}`}>{data.name}</div>
       </Link>
     </div>
