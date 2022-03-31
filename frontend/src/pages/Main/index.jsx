@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import Section from '../../components/Section';
 import { getSectionsWithTodos } from './fetchData';
@@ -36,6 +36,7 @@ function Main() {
           ))}
         </div>
       )}
+      <Outlet />
     </div>
   );
 }
