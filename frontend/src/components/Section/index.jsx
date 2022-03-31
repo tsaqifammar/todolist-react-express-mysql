@@ -1,4 +1,5 @@
 import { PropTypes } from 'prop-types';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import SectionButton from '../SectionButton';
@@ -6,6 +7,9 @@ import Todo from '../Todo';
 
 function Section({ data }) {
   const { name, date_created } = data;
+  const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
+
   return (
     <div className="bg-white w-full rounded px-4 py-6">
       <div className="flex justify-between items-center mb-4">
@@ -16,7 +20,11 @@ function Section({ data }) {
           </p>
         </div>
         <div>
-          <SectionButton className="mr-1 bg-gradient-to-tl from-gray-700 to-gray-500" icon={<HiOutlinePlus />} />
+          <SectionButton
+            className="mr-1 bg-gradient-to-tl from-gray-700 to-gray-500"
+            onClickHandler={() => navigate(`/todo/${data.id}/create?${urlParams}`)}
+            icon={<HiOutlinePlus />}
+          />
           <SectionButton className="mr-1 bg-gradient-to-tl from-blue-600 to-blue-400" icon={<BiPencil />} />
           <SectionButton className="bg-gradient-to-tl from-red-600 to-red-400" icon={<BiTrash />} />
         </div>
