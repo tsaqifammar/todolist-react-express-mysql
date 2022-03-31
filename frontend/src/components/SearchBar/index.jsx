@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 function SearchBar() {
-  const [searchText, setSearchText] = useState('');
-  const [, setUrlParams] = useSearchParams();
+  const [urlParams, setUrlParams] = useSearchParams();
+  const [searchText, setSearchText] = useState(urlParams.get('section') || '');
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
