@@ -10,7 +10,7 @@ function Header() {
         <SearchBar />
         <button
           type="button"
-          className="add-section-btn font-bold absolute right-8 bottom-8 sm:static sm:ml-4"
+          className="add-section-btn font-bold fixed right-8 bottom-8 sm:static sm:ml-4"
         >
           <span className="-translate-y-[2px] hidden sm:inline">
             Add Section
