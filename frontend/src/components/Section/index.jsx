@@ -25,7 +25,11 @@ function Section({ data }) {
             onClickHandler={() => navigate(`/todo/${data.id}/create?${urlParams}`)}
             icon={<HiOutlinePlus />}
           />
-          <SectionButton className="mr-1 bg-gradient-to-tl from-blue-600 to-blue-400" icon={<BiPencil />} />
+          <SectionButton
+            className="mr-1 bg-gradient-to-tl from-blue-600 to-blue-400"
+            onClickHandler={() => navigate(`/section/edit/${data.id}?${urlParams}`)}
+            icon={<BiPencil />}
+          />
           <SectionButton className="bg-gradient-to-tl from-red-600 to-red-400" icon={<BiTrash />} />
         </div>
       </div>
