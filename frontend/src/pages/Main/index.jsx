@@ -27,12 +27,12 @@ function Main() {
   }, [urlParams, setUrlParams, location.key]);
 
   return (
-    <div className="mx-auto h-screen w-4/5">
+    <div className="mx-auto h-screen w-4/5 flex flex-col justify-start">
       <Header />
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="mt-4 grid grid-rows-3 lg:grid-rows-1 lg:grid-cols-3 sm:mt-8 gap-6">
+        <div className="mt-4 flex flex-col lg:flex-grow lg:grid lg:grid-rows-1 lg:grid-cols-3 sm:mt-8 gap-6">
           {sectionsData.map((section) => (
             <Section key={section.id} data={section} />
           ))}
