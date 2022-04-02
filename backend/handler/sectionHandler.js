@@ -123,7 +123,7 @@ function getSectionsWithTodos(req, res) {
     sql: `
     SELECT *
     FROM todo
-    INNER JOIN (
+    RIGHT JOIN (
       SELECT *
       FROM section s
       WHERE LOWER(s.name) LIKE ?
@@ -131,7 +131,7 @@ function getSectionsWithTodos(req, res) {
       OFFSET ?
     ) AS section
     ON todo.section_id = section.id
-    ORDER BY section.date_created
+    ORDER BY section.date_created DESC
     `,
     nestTables: true,
   };
@@ -147,7 +147,7 @@ function getSectionsWithTodos(req, res) {
         if (!section.has(sectionId)) {
           section.set(sectionId, {
             ...d.section,
-            todos: [d.todo],
+            todos: d.todo.id ? [d.todo] : [],
           });
         } else {
           section.get(sectionId).todos.push(d.todo);
