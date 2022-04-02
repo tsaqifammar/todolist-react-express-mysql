@@ -8,9 +8,15 @@ function SearchBar() {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       if (searchText) {
-        setUrlParams({ section: searchText });
+        const newUrlParams = urlParams;
+        newUrlParams.set('section', searchText);
+        setUrlParams(newUrlParams);
       } else {
-        setUrlParams({});
+        if (urlParams.has('section')) {
+          const newUrlParams = urlParams;
+          newUrlParams.delete('section');
+          setUrlParams(newUrlParams);
+        }
       }
     }
   };
