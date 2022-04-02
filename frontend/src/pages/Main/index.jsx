@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
+import Pagination from '../../components/Pagination';
 import Section from '../../components/Section';
 import { getSectionsWithTodos } from './fetchData';
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [sectionsData, setSectionsData] = useState([]);
-  const [urlParams] = useSearchParams();
+  const [urlParams, setUrlParams] = useSearchParams();
   const location = useLocation();
 
   const sectionPerPage = 3;
@@ -15,16 +16,15 @@ function Main() {
   useEffect(() => {
     async function fetchData() {
       const data = await getSectionsWithTodos(
-        1,
+        urlParams.get('page') || 1,
         sectionPerPage,
         urlParams.get('section')
       );
       setSectionsData(data.data);
       setIsLoading(false);
-      console.log(data.data);
     }
     fetchData();
-  }, [urlParams, location.key]);
+  }, [urlParams, setUrlParams, location.key]);
 
   return (
     <div className="mx-auto h-screen w-4/5">
@@ -38,6 +38,9 @@ function Main() {
           ))}
         </div>
       )}
+      <div className="flex justify-center items-center py-6">
+        <Pagination sectionPerPage={sectionPerPage} />
+      </div>
       <Outlet />
     </div>
   );
