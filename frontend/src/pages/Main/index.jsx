@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
 import Header from '../../components/Header';
 import Section from '../../components/Section';
 import { getSectionsWithTodos } from './fetchData';
@@ -8,6 +8,7 @@ function Main() {
   const [isLoading, setIsLoading] = useState(true);
   const [sectionsData, setSectionsData] = useState([]);
   const [urlParams] = useSearchParams();
+  const location = useLocation();
 
   const sectionPerPage = 3;
 
@@ -20,9 +21,10 @@ function Main() {
       );
       setSectionsData(data.data);
       setIsLoading(false);
+      console.log(data.data);
     }
     fetchData();
-  }, [urlParams]);
+  }, [urlParams, location.key]);
 
   return (
     <div className="mx-auto h-screen w-4/5">
