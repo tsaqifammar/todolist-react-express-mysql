@@ -50,7 +50,9 @@ function getSection(req, res) {
 }
 
 function getPageCount(req, res) {
-  const { countPerPage } = req.query;
+  const { countPerPage, searchInput } = req.query;
+
+  const searchSQLParam = (searchInput ? `%${searchInput}%` : '%').toLowerCase();
 
   if (countPerPage === undefined) {
     return res.status(400).json({
@@ -64,16 +66,20 @@ function getPageCount(req, res) {
     });
   }
 
-  db.execute('SELECT COUNT(*) AS rowCount FROM section', (err, results) => {
-    if (err) return res.status(400).json({ message: 'Failed getting page count' });
-    const { rowCount } = results[0];
-    res.status(200).json({
-      message: 'Success',
-      data: {
-        pageCount: Math.ceil(rowCount / parseFloat(countPerPage)),
-      },
-    });
-  });
+  db.execute(
+    'SELECT COUNT(*) AS rowCount FROM section WHERE name LIKE ?',
+    [searchSQLParam],
+    (err, results) => {
+      if (err) return res.status(400).json({ message: 'Failed getting page count' });
+      const { rowCount } = results[0];
+      res.status(200).json({
+        message: 'Success',
+        data: {
+          pageCount: Math.ceil(rowCount / parseFloat(countPerPage)),
+        },
+      });
+    },
+  );
 }
 
 function updateSection(req, res) {
