@@ -1,0 +1,23 @@
+.pagination {
+  @apply flex items-center gap-2;
+}
+
+.page-item {
+  @apply p-2 text-gray-600;
+}
+
+.page-link {
+  @apply m-2 font-bold leading-none;
+}
+
+.active {
+  @apply bg-gradient-to-tl from-gray-600 to-gray-400 rounded text-white;
+}
+
+.disabled {
+  @apply text-gray-400 hover:text-gray-400;
+}
+
+.disabled a {
+  @apply cursor-not-allowed;
+}
