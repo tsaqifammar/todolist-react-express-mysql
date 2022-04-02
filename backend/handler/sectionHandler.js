@@ -67,7 +67,6 @@ function getPageCount(req, res) {
   db.execute('SELECT COUNT(*) AS rowCount FROM section', (err, results) => {
     if (err) return res.status(400).json({ message: 'Failed getting page count' });
     const { rowCount } = results[0];
-    console.log(results, results[0], rowCount);
     res.status(200).json({
       message: 'Success',
       data: {
