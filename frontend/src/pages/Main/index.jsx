@@ -4,6 +4,8 @@ import Header from '../../components/Header';
 import Pagination from '../../components/Pagination';
 import Section from '../../components/Section';
 import { getSectionsWithTodos } from './fetchData';
+import axios from 'axios';
+import getBackendUrl from '../../utilities/getBackendUrl';
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +28,16 @@ function Main() {
     fetchData();
   }, [urlParams, setUrlParams, location.key]);
 
+  const deleteHandler = async (id) => {
+    await axios.delete(`${getBackendUrl()}/sections/${id}`);
+    const data = await getSectionsWithTodos(
+      urlParams.get('page') || 1,
+      sectionPerPage,
+      urlParams.get('section')
+    );
+    setSectionsData(data.data);
+  };
+
   return (
     <div className="mx-auto h-screen w-4/5 flex flex-col justify-start">
       <Header />
@@ -34,7 +46,7 @@ function Main() {
       ) : (
         <div className="mt-4 flex flex-col lg:flex-grow lg:grid lg:grid-rows-1 lg:grid-cols-3 sm:mt-8 gap-6">
           {sectionsData.map((section) => (
-            <Section key={section.id} data={section} />
+            <Section key={section.id} data={section} deleteHandler={deleteHandler} />
           ))}
         </div>
       )}

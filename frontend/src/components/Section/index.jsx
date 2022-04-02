@@ -5,7 +5,7 @@ import { BiPencil, BiTrash } from 'react-icons/bi';
 import SectionButton from '../SectionButton';
 import Todo from '../Todo';
 
-function Section({ data }) {
+function Section({ data, deleteHandler }) {
   const { name, date_created } = data;
   const navigate = useNavigate();
   const [urlParams] = useSearchParams();
@@ -30,7 +30,11 @@ function Section({ data }) {
             onClickHandler={() => navigate(`/section/edit/${data.id}?${urlParams}`)}
             icon={<BiPencil />}
           />
-          <SectionButton className="bg-gradient-to-tl from-red-600 to-red-400" icon={<BiTrash />} />
+          <SectionButton
+            className="bg-gradient-to-tl from-red-600 to-red-400"
+            onClickHandler={() => deleteHandler(data.id)}
+            icon={<BiTrash />}
+          />
         </div>
       </div>
       <div className="flex flex-col justify-start gap-3">
@@ -42,6 +46,7 @@ function Section({ data }) {
 
 Section.propTypes = {
   data: PropTypes.object.isRequired,
+  deleteHandler: PropTypes.func.isRequired
 };
 
 export default Section;
